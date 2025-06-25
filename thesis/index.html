@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<!--
+	Strata by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Jasmine Anderson-Baldwin</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+			<header id="header">
+				<div class="inner">
+					<a href="#" class="image avatar"><img src="../images/avatar.jpg" alt="" /></a>
+					<h1><strong>Jasmine Anderson-Baldwin</strong><br />
+					PhD Candidate at Swinburne University of Technology</h1>
+				</div>
+			</header>
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- One -->
+					<section id="one">
+						<header class="major">
+							<h2>Thesis word count</h2>
+						</header>
+						<p>I have been a PhD candidate for <strong id="phdays"></strong> days. My target submission date is in <strong id="submitdays"></strong> days.</p>
+
+					</section>
+            </div>
+				
+
+		<!-- Footer -->
+			<footer id="footer">
+				<div class="inner">
+					<ul class="icons">
+						<li><a href="https://x.com/jsmnndrsn" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+						<li><a href="https://github.com/jandersonb" class="icon brands fa-github"><span class="label">Github</span></a></li>
+						<li><a href="https://www.linkedin.com/in/jasmine-anderson-baldwin-916a07236/" class="icon brands fa-linkedin"><span class="label">Github</span></a></li>
+						<li><a href="mailto:jandersonbaldwin@swin.edu.au" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+					</ul>
+					<ul class="copyright">
+						<li>&copy; 2025 Website</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+					</ul>
+				</div>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="../assets/js/jquery.min.js"></script>
+			<script src="../assets/js/jquery.poptrox.min.js"></script>
+			<script src="../assets/js/browser.min.js"></script>
+			<script src="../assets/js/breakpoints.min.js"></script>
+			<script src="../assets/js/util.js"></script>
+			<script src="../assets/js/main.js"></script>
+
+
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    function Delta_Days(d1, d2) {
+                        if (d1 != "") {
+                            var date1 = new Date(d1);
+                        } else {
+                            var date1 = new Date();
+                        }
+                        if (d2 != "") {
+                            var date2 = new Date(d2);
+                        } else {
+                            var date2 = new Date();
+                        }
+                        // To calculate the time difference of two dates
+                        var Difference_In_Time = date1.getTime() - date2.getTime();
+
+                        // // To calculate the no. of days between two dates
+                        var Difference_In_Days = Math.floor(Difference_In_Time / (1000 * 3600 * 24));
+
+                        return Difference_In_Days;
+                    }
+
+                    $("#phdays").html(Delta_Days("", "03/01/2024"));
+                    $("#submitdays").html(Delta_Days("02/28/2027", ""));
+                });
+            </script>
+	</body>
+</html>
