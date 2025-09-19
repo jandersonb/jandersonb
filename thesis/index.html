@@ -11,6 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="../assets/css/main.css" />
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
 	</head>
 	<body class="is-preload">
 
@@ -64,10 +65,6 @@
 			<script src="../assets/js/util.js"></script>
 			<script src="../assets/js/main.js"></script>
 
-			<script>
-				console.log("✅ Script is running"); // <-- test line
-			</script>
-
 
             <script type="text/javascript">
                 $(document).ready(function(){
@@ -97,79 +94,79 @@
             </script>
 
 			<script>
-				async function drawPlot() {
-					try {
-					const response = await fetch("https://raw.githubusercontent.com/jandersonb/phd-thesis/refs/heads/main/wordcount.txt?token=GHSAT0AAAAAADLM4CFUBUKFHZR2T3EVFKAO2GMWGSA" + Date.now());
-					const text = await response.text();
-					console.log("Fetched data:", text); // debug
-
-					const lines = text.trim().split("\n");
-					const dates = [];
-					const counts = [];
-
-					for (const line of lines) {
-						const parts = line.split(",");
-						if (parts.length === 2) {
-						dates.push(parts[0].trim());
-						counts.push(parseInt(parts[1]));
-						}
+				window.onload = async function() {
+				try {
+					// Fetch wordcount.txt from GitHub Pages
+					const response = await fetch("https://jandersonb.github.io/phd-thesis/wordcount.txt?nocache=" + Date.now());
+					
+					if (!response.ok) {
+					throw new Error("Failed to fetch file: " + response.status);
 					}
 
-					new Chart(document.getElementById("wordcountPlot"), {
-						type: "line",
-						data: {
-						labels: dates,
-						datasets: [{
-							label: "Word Count",
-							data: counts,
-							borderColor: "blue",
-							tension: 0.1
-						}]
-						}
-					});
-					} catch (err) {
-					console.error("Error loading plot:", err);
-					}
-				}
-				drawPlot();
-			</script>
-<!--
-			<script>
-				async function drawPlot() {
-					// fetch the raw wordcount.txt from your thesis repo
-					const response = await fetch("https://raw.githubusercontent.com/jandersonb/phd-thesis/refs/heads/main/wordcount.txt?token=GHSAT0AAAAAADLM4CFUBUKFHZR2T3EVFKAO2GMWGSA" + Date.now());
 					const text = await response.text();
 
-					const lines = text.trim().split("\n");
-					const dates = [];
-					const counts = [];
+					// Debug: see exactly what we fetched
+					console.log("Fetched raw text:", JSON.stringify(text));
 
-					for (const line of lines) {
-					const [date, count] = line.split(",");
-					dates.push(date.trim());
-					counts.push(parseInt(count));
-					}
+					// Split into lines and filter empty/malformed lines
+					const lines = text
+					.trim()
+					.split("\n")
+					.filter(line => line.includes(" "));
 
+					// Parse timestamps and word counts
+					const dates = lines.map(line => new Date(line.split(" ")[0].trim()));
+					const counts = lines.map(line => parseInt(line.split(" ")[1].trim()));
+
+					console.log("Parsed dates:", dates);
+					console.log("Parsed counts:", counts);
+
+					// Create the Chart.js plot
 					new Chart(document.getElementById("wordcountPlot"), {
-					type: "line",
+					type: 'line',
 					data: {
 						labels: dates,
 						datasets: [{
-						label: "Word Count",
+						label: 'Word Count',
 						data: counts,
-						borderColor: "blue",
-						fill: false
+						borderColor: 'blue',
+						backgroundColor: 'rgba(0,0,255,0.1)',
+						tension: 0.2,
+						fill: true,
+						pointRadius: 3
 						}]
 					},
 					options: {
+						responsive: true,
 						scales: {
-						x: { title: { display: true, text: "Date" } },
-						y: { title: { display: true, text: "Words" } }
+						x: {
+							type: 'time',
+							time: {
+								unit: 'day',
+								tooltipFormat: 'dd MMM yyyy HH:mm', // hover tooltip
+								displayFormats: {
+								day: 'dd MMM yyyy' // tick labels on x-axis
+								}
+							},
+							title: { display: true, text: 'Date' }
+						},
+						y: {
+							beginAtZero: false,
+							title: { display: true, text: 'Words' }
+						}
+						},
+						plugins: {
+						tooltip: { mode: 'index', intersect: false },
+						legend: { display: true }
 						}
 					}
 					});
+
+				} catch (err) {
+					console.error("Error fetching or plotting word count:", err);
 				}
-				drawPlot();
-			</script> -->
+				};
+			</script>
+			
 	</body>
 </html>
