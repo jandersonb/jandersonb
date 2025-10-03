@@ -3221,3 +3221,15 @@ input, select, textarea {
 			}
 
 	}
+
+/* Custom styles for article boxes */
+.article-box {
+	background: #f8f8f8;
+	border: 1px solid #ddd;
+	border-left: 4px solid #49bf9d;
+	padding: 1em;
+	margin: 1em 0;
+	border-radius: 4px;
+	font-size: 0.9em;
+	line-height: 1.5em;
+}
